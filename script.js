@@ -208,7 +208,8 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- 4. CONTACT FORM FRONTEND LOCAL STORAGE STORAGE & RESET ---
     const contactForm = document.getElementById('insta-contact-form');
     if (contactForm) {
-        contactForm.addEventListener('submit', () => {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault(); // Prevent page reload
             // Retrieve field inputs
             const nameVal = document.getElementById('user-name').value;
             const emailVal = document.getElementById('user-email').value;
@@ -240,10 +241,11 @@ document.addEventListener('DOMContentLoaded', () => {
                 console.error("Error communicating with server:", err);
             });
 
-            // Empty/clean form inputs after a brief timeout so browser initiates the target="_blank" redirection
-            setTimeout(() => {
-                contactForm.reset();
-            }, 100);
+            // Empty/clean form inputs
+            contactForm.reset();
+            
+            // Alert user that message was sent
+            alert("Thank you! Your message has been sent successfully.");
         });
     }
 });
