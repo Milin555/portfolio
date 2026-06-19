@@ -204,4 +204,44 @@ document.addEventListener('DOMContentLoaded', () => {
         nextBtn.addEventListener('click', resetInterval);
         prevBtn.addEventListener('click', resetInterval);
     }
+
+    // --- 4. CONTACT FORM FRONTEND LOCAL STORAGE STORAGE & RESET ---
+    const contactForm = document.getElementById('insta-contact-form');
+    if (contactForm) {
+        contactForm.addEventListener('submit', () => {
+            // Retrieve field inputs
+            const nameVal = document.getElementById('user-name').value;
+            const emailVal = document.getElementById('user-email').value;
+            const messageVal = document.getElementById('user-message').value;
+
+            // Formulate submission object
+            const submission = {
+                name: nameVal,
+                email: emailVal,
+                message: messageVal
+            };
+
+            // Send data to our local backend server to save it to submissions.json
+            fetch('/api/contact', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(submission)
+            }).then(response => {
+                if (!response.ok) {
+                    console.error("Failed to save submission to server.");
+                } else {
+                    console.log("Submission successfully saved to data.json!");
+                }
+            }).catch(err => {
+                console.error("Error communicating with server:", err);
+            });
+
+            // Empty/clean form inputs after a brief timeout so browser initiates the target="_blank" redirection
+            setTimeout(() => {
+                contactForm.reset();
+            }, 100);
+        });
+    }
 });
