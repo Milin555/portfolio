@@ -214,25 +214,27 @@ document.addEventListener('DOMContentLoaded', () => {
             const emailVal = document.getElementById('user-email').value;
             const messageVal = document.getElementById('user-message').value;
 
-            // Formulate submission object
+            // Formulate submission object for Web3Forms
             const submission = {
+                access_key: "058cff5b-a1a2-4d9f-888d-655c3d1b48ee",
                 name: nameVal,
                 email: emailVal,
                 message: messageVal
             };
 
-            // Send data to our local backend server to save it to submissions.json
-            fetch('/api/contact', {
+            // Send data to Web3Forms API to email it directly to you
+            fetch('https://api.web3forms.com/submit', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify(submission)
             }).then(response => {
                 if (!response.ok) {
-                    console.error("Failed to save submission to server.");
+                    console.error("Failed to send submission to Web3Forms.");
                 } else {
-                    console.log("Submission successfully saved to data.json!");
+                    console.log("Submission successfully sent to your email!");
                 }
             }).catch(err => {
                 console.error("Error communicating with server:", err);
